@@ -1,0 +1,187 @@
+Code
+#include <SoftwareSerial.h>
+//SoftwareSerial bluetooth(12,13); Serial connect bluetooth
+
+#define m11 4
+#define m12 5
+#define m21 6
+#define m22 7
+
+#define ma1 8
+#define ma2 9
+#define mb1 10
+#define mb2 11
+char blu ;
+int soil;
+void setup()
+{
+  Serial.begin(9600);
+  Serial.println("bluethooth based pic and place robot");
+  
+  pinMode (m11,OUTPUT);
+  pinMode (m12,OUTPUT);
+  pinMode (m21,OUTPUT);
+  pinMode (m22,OUTPUT);
+   
+  pinMode (ma1,OUTPUT);
+  pinMode (ma2,OUTPUT);
+  pinMode (mb1,OUTPUT);
+  pinMode (mb2,OUTPUT);
+}
+//------loop------------
+void loop()
+{
+  
+    if(Serial.available())
+    {
+      blu=Serial.read();
+      Serial.println(blu);  
+    }
+ //------robott-------------------   
+    if((blu=='f')||(blu=='F'))
+    {
+      Serial.println("robot moving forward");
+      forward();  
+    }
+    else if((blu=='b')||(blu=='B'))
+    {
+      Serial.println("robot moving backward");
+      backward();  
+    }
+    else if((blu=='l')||(blu=='L'))
+    {
+      Serial.println("robot moving left");
+      left();  
+    }
+    else if((blu=='r')||(blu=='R'))
+    {
+      Serial.println("robot moving right");
+      right();  
+    }
+    else if((blu=='s')||(blu=='S'))
+    {
+      Serial.println("robot moving stop");
+      stopp();  
+    }
+    //---ploughing ------------
+    else if((blu=='u')||(blu=='U'))
+    {
+      Serial.println("robot ploughing uppp");
+      plucking_up();  
+    }
+    else if((blu=='d')||(blu=='D'))
+    {
+      Serial.println("robot ploughing downn");
+      plucking_down();  
+    }
+    
+    //-------Seeding--------------
+    else if((blu=='o')||(blu=='O'))
+    {
+      Serial.println("robot opening");
+      openn();  
+    }
+    else if((blu=='c')||(blu=='C'))
+    {
+      Serial.println("robot closeing");
+      closee();  
+    }
+  
+}
+
+
+
+void forward () 
+{
+  Serial.println("FORWARD ");
+  digitalWrite(m11,HIGH);
+  digitalWrite(m12,LOW);
+
+  digitalWrite(m21,HIGH);
+  digitalWrite(m22,LOW);
+  
+  delay(500);
+}
+void backward () 
+{
+  Serial.println("BACKWARD ");
+  digitalWrite(m11,LOW);
+  digitalWrite(m12,HIGH);
+
+  digitalWrite(m21,LOW);
+  digitalWrite(m22,HIGH);
+  
+  delay(500);
+}
+void right () 
+{
+  Serial.println("RIGHT");
+  digitalWrite(m11,HIGH);
+  digitalWrite(m12,LOW);
+
+  digitalWrite(m21,LOW);
+  digitalWrite(m22,HIGH);
+  
+  delay(500);
+}
+void left () 
+{
+  Serial.println("LEFT");
+  digitalWrite(m11,LOW);
+  digitalWrite(m12,HIGH);
+
+  digitalWrite(m21,HIGH);
+  digitalWrite(m22,LOW);
+  
+  delay(500);
+}
+void stopp () 
+{
+  Serial.println("STOP");
+  digitalWrite(m11,LOW);
+  digitalWrite(m12,LOW);
+
+  digitalWrite(m21,LOW);
+  digitalWrite(m22,LOW);
+  
+  delay(500);
+}
+void plucking_up ()
+{
+  Serial.println("UP ");
+  digitalWrite(ma1,HIGH);
+  digitalWrite(ma2,LOW);
+  delay(1500);
+  digitalWrite(ma1,LOW);
+  digitalWrite(ma2,LOW);
+  delay(100);
+}
+void plucking_down ()
+{
+  
+  Serial.println("DOWN");
+  digitalWrite(ma1,LOW);
+  digitalWrite(ma2,HIGH);
+  delay(1500);
+  digitalWrite(ma1,LOW);
+  digitalWrite(ma2,LOW);
+  delay(500);
+}
+void openn ()
+{
+  Serial.println("OPEN");
+  digitalWrite(mb1,LOW);
+  digitalWrite(mb2,HIGH);
+  delay(1000);
+  digitalWrite(mb1,LOW);
+  digitalWrite(mb2,LOW);
+}
+void closee ()
+{
+  Serial.println("CLOSE");
+  digitalWrite(mb2,LOW);
+  digitalWrite(mb1,HIGH);
+  delay(1000);
+  digitalWrite(mb1,LOW);
+  digitalWrite(mb2,LOW);
+}
